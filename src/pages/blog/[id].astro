@@ -1,0 +1,21 @@
+---
+import axios from "axios";
+import SingleBlog from "../components/SingleBlog/SingleBlog";
+export async function getStaticPaths() {
+  const response = await axios.get(
+    "https://stagingngls.wpengine.com/wp-json/wp/v2/posts/"
+  );
+  const responseData = await response.data;
+
+  const IdArray = await responseData.map(function ({ id }) {
+    return { params: { id: id } };
+  });
+
+  return IdArray;
+  
+
+}
+
+const { id } = Astro.params;
+---
+<SingleBlog id={id} client:load/>
